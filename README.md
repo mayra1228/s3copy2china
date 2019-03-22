@@ -4,20 +4,7 @@ Globa S3同步China S3最终方案
 >
 > https://aws.amazon.com/cn/blogs/china/lambda-overseas-china-s3-file/
 
-### 1 架构图
-
-![S3同步](/Users/zhaoxuemei/Documents/项目/三星/S3同步/S3同步.png)
-
-### 2 逻辑实现
-在source S3配置events，有任何create/delete object的动作会触发Lambda Main函数，Lambda函数会测试EC2实例的健康状态，将请求通过ssm发送到Active server。请求格式类似如下格式：
-
-```
-python3.7 S3CopyToChina.py '{"bucket": "s3-virginia-to-china-speed-bespin", "key": "test.img", "dst_bucket": "develop-s3-beijing-bespin-test", "id": "6f7d463b28c08d330d2424b65f2d32d4", "credbucket": "s3-virginia-to-china-speed3", "credobject": "S3Beijingcredential.txt"}'
-```
-EC2上的 S3CopyToChinaSingle.py脚本负责同步脚本，完成同步后更新dynamoDB的S3SingleResult表并删除S3Single表中的该条目。更新数据库之后将同步时间上传的到dyanmoDB，最后删除服务器上的临时文件。
-### 3 功能模块
-
-### 4 部署步骤
+### 部署步骤
 
 #### 1 创建角色s3syncrole并附加到EC2实例
 
